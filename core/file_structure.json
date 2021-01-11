@@ -1,12 +1,12 @@
 {
     "meta_data": {
-        "storage": 289,
-        "files": 6
+        "storage": 411,
+        "files": 7
     },
     "files": {
         "1": {
             "name": "b.txt",
-            "size": 119,
+            "size": 121,
             "chunks": {
                 "0": "Hi there Im very eci",
                 "1": "ted to see gujjar's ",
@@ -14,7 +14,8 @@
                 "3": "Hey there this a cra",
                 "4": "zy file managment sy",
                 "5": "stem that ou have ne",
-                "6": "ver seen"
+                "6": "ver seen",
+                "7": "kk"
             }
         },
         "3": {
@@ -41,6 +42,13 @@
             "name": "were.txt",
             "size": 0,
             "chunks": {}
+        },
+        "10": {
+            "name": "tos.txt",
+            "size": 1,
+            "chunks": {
+                "0": "3"
+            }
         }
     }
 }

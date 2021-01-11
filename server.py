@@ -3,10 +3,12 @@ from core import index
 import socket
 from _thread import *
 
-ServerSideSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 host = '0.0.0.0'
 port = 95
 ThreadCount = 0
+buffer = 5120
+ServerSideSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
 try:
     ServerSideSocket.bind((host, port))
 except socket.error as e:
@@ -20,16 +22,16 @@ ServerSideSocket.listen(5)
 def multi_threaded_client(connection, client_id):
     connection.send(str.encode('Server is working:'))
     while True:
-        user_choice = connection.recv(2048).decode('utf-8')
+        user_choice = connection.recv(buffer).decode('utf-8')
         if user_choice < "5":
-            file_name = connection.recv(2048).decode('utf-8')
+            file_name = connection.recv(buffer).decode('utf-8')
 
         if user_choice == "4":
-            writeRequest = connection.recv(2048).decode('utf-8')
+            writeRequest = connection.recv(buffer).decode('utf-8')
             auditResponse = index.audit_write_request(writeRequest)
             connection.send(str.encode(auditResponse))
             if auditResponse == "passed":
-                writing_text = connection.recv(2048).decode('utf-8')
+                writing_text = connection.recv(buffer).decode('utf-8')
                 response = index.main(user_choice, file_name, client_id, writing_text)
             else:
                 response = "Another Client is accessing the file"
@@ -45,7 +47,7 @@ def multi_threaded_client(connection, client_id):
         connection.sendall(str.encode(response))
 
         if user_choice == "3":
-            do_close = connection.recv(2048).decode('utf-8')
+            do_close = connection.recv(buffer).decode('utf-8')
             res = index.close_file(do_close)
             connection.send(str.encode(res))
 

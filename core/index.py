@@ -153,7 +153,6 @@ def close_program(clt_id):
 
 
 def display_msg(msg):
-    # code 0 = normal flow, code 1 = user interrupted the program
     with open("C:/Users/SarmadSohail/IdeaProjects/mad-finager-with-threading/logs/logs.txt", "a") as file_ptr:
         print(msg, file=file_ptr)
     return msg

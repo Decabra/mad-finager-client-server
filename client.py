@@ -1,5 +1,5 @@
 import socket
-
+buffer = 5120
 port = 95
 ClientMultiSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 print('Waiting for connection response')
@@ -19,12 +19,12 @@ try:
 
         if user_choice == "4":
             ClientMultiSocket.send(str.encode(file_name))
-            check = ClientMultiSocket.recv(1024).decode('utf-8')
+            check = ClientMultiSocket.recv(buffer).decode('utf-8')
             if check == "passed":
                 writing_text = input(f"Enter text for file {file_name}: ")
                 ClientMultiSocket.send(str.encode(writing_text))
 
-        res = ClientMultiSocket.recv(1024).decode('utf-8')
+        res = ClientMultiSocket.recv(buffer).decode('utf-8')
         print(res)
 
         if user_choice == "3":
@@ -33,7 +33,7 @@ try:
                 if do_close == "c":
                     break
             ClientMultiSocket.send(str.encode(file_name))
-            response = ClientMultiSocket.recv(1024).decode('utf-8')
+            response = ClientMultiSocket.recv(buffer).decode('utf-8')
             print(response)
 
         if res == "terminated":
