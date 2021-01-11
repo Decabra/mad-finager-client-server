@@ -1,0 +1,46 @@
+{
+    "meta_data": {
+        "storage": 289,
+        "files": 6
+    },
+    "files": {
+        "1": {
+            "name": "b.txt",
+            "size": 119,
+            "chunks": {
+                "0": "Hi there Im very eci",
+                "1": "ted to see gujjar's ",
+                "2": "big muscles",
+                "3": "Hey there this a cra",
+                "4": "zy file managment sy",
+                "5": "stem that ou have ne",
+                "6": "ver seen"
+            }
+        },
+        "3": {
+            "name": "q.txt",
+            "size": 0,
+            "chunks": {}
+        },
+        "4": {
+            "name": "w.txt",
+            "size": 0,
+            "chunks": {}
+        },
+        "5": {
+            "name": "r.txt",
+            "size": 0,
+            "chunks": {}
+        },
+        "8": {
+            "name": "qw.txt",
+            "size": 0,
+            "chunks": {}
+        },
+        "9": {
+            "name": "were.txt",
+            "size": 0,
+            "chunks": {}
+        }
+    }
+}
