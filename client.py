@@ -1,10 +1,8 @@
 import socket
 
 port = 95
-
-ClientMultiSocket = socket.socket()
+ClientMultiSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 print('Waiting for connection response')
-
 host = input("Enter IP: ")
 try:
     ClientMultiSocket.connect((host, port))
@@ -14,31 +12,33 @@ try:
         print("\n1. Create File\n2. Delete File\n3. Open File for read\n4. Open File for write  \n5. Show Map"
               "\n6. Kill Program")
         user_choice = input("Enter value: ")
+        ClientMultiSocket.send(str.encode(user_choice))
         if user_choice < "5":
             file_name = input("Enter File name: ")
-        else:
-            file_name = "empty"
-
-        ClientMultiSocket.send(str.encode(user_choice))
-        ClientMultiSocket.send(str.encode(file_name))
-        if user_choice == "3":
-            do_close = input("Enter reading time: ")
-            ClientMultiSocket.send(str.encode(do_close))
+            ClientMultiSocket.send(str.encode(file_name))
 
         if user_choice == "4":
-            active = ClientMultiSocket.recv(1024).decode('utf-8')
-            print(active)
-            if file_name != active:
-                ClientMultiSocket.send(str.encode(file_name))
+            ClientMultiSocket.send(str.encode(file_name))
+            check = ClientMultiSocket.recv(1024).decode('utf-8')
+            if check == "passed":
                 writing_text = input(f"Enter text for file {file_name}: ")
                 ClientMultiSocket.send(str.encode(writing_text))
-            else:
-                ClientMultiSocket.send(str.encode("Another client accessing the file"))
 
         res = ClientMultiSocket.recv(1024).decode('utf-8')
         print(res)
-        if res == "Command executed with code 1":
+
+        if user_choice == "3":
+            while True:
+                do_close = input("Enter c to close the file: ")
+                if do_close == "c":
+                    break
+            ClientMultiSocket.send(str.encode(file_name))
+            response = ClientMultiSocket.recv(1024).decode('utf-8')
+            print(response)
+
+        if res == "terminated":
             break
+
 except socket.error as e:
     print("Server is not available")
 ClientMultiSocket.close()

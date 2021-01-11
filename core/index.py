@@ -1,24 +1,19 @@
 import json
-import threading
 from core.files import File
 import os.path
-import time
 
+activeReadingFiles = []
+activeWritingFiles = []
 makeChanges = 0
-activeUser = 0
-activeAccess = "empty"
 startProgram = 0
-Lock = threading.Lock()
 
 
-def get_active_access():
-    return activeAccess
-
-
-def set_active_access(arg):
-    global activeAccess
-    activeAccess = arg
-    return activeAccess
+def audit_write_request(file_name):
+    if (file_name not in activeReadingFiles) and (file_name not in activeWritingFiles):
+        activeWritingFiles.append(file_name)
+        return "passed"
+    else:
+        return "failed"
 
 
 def file_id_assigner():
@@ -47,7 +42,8 @@ def clear_logs():
 def load_JSON():
     global JSON_structure
     if os.path.isfile("C:/Users/SarmadSohail/IdeaProjects/mad-finager-with-threading/core/file_structure.json"):
-        with open("C:/Users/SarmadSohail/IdeaProjects/mad-finager-with-threading/core/file_structure.json") as JSON_Infile:
+        with open(
+                "C:/Users/SarmadSohail/IdeaProjects/mad-finager-with-threading/core/file_structure.json") as JSON_Infile:
             JSON_structure = json.load(JSON_Infile)
     else:
         print("JSON File not found")
@@ -91,7 +87,6 @@ def delete_file(clt_id, file_name):
 
 def open_for_write(clt_id, file_name, Text):
     global makeChanges
-    global activeAccess
     makeChanges = 1
     chunkSize = 20
     FnF = False
@@ -106,18 +101,16 @@ def open_for_write(clt_id, file_name, Text):
                 JSON_structure["files"][file_indexes]["chunks"].update(
                     {str(chunk_id_assigner(file_indexes)): Text[i:i + chunkSize]})
             break
+    activeWritingFiles.remove(file_name)
     if FnF:
-        display_msg(f"Client-id {clt_id}: File not exists")
+        return display_msg(f"Client-id {clt_id}: File not exists")
     if not FnF:
-        display_msg(f"Client-id {clt_id}: Data writing Successful!")
-    activeAccess = "empty"
+        return display_msg(f"Client-id {clt_id}: Data writing Successful!")
 
 
-def open_for_read(clt_id, file_name, do_close):
-    global activeAccess
-    global activeUser
-    activeAccess = file_name
-    activeUser = 1
+def open_for_read(clt_id, file_name):
+    global activeReadingFiles
+    activeReadingFiles.append(file_name)
     fullData = ""
     FnF = False
     for file_indexes in JSON_structure["files"].keys():
@@ -128,10 +121,6 @@ def open_for_read(clt_id, file_name, do_close):
             for data in JSON_structure["files"][file_indexes]["chunks"].keys():
                 fullData += JSON_structure["files"][file_indexes]["chunks"][data] + ""
             break
-    time.sleep(int(do_close))  # Bounded waiting for current process to keep the other process from starving
-    print(f"Client-id {clt_id}: Critical execution for {int(do_close)}s")
-    activeUser = 0
-    activeAccess = "empty"
     if FnF:
         return display_msg(f"Client-id {clt_id}: File not exists")
     if not FnF:
@@ -139,32 +128,38 @@ def open_for_read(clt_id, file_name, do_close):
         return display_msg(f"Client-id {clt_id}: {message}")
 
 
+def close_file(file_name):
+    global activeReadingFiles
+    activeReadingFiles.remove(file_name)
+    return "File Closed!"
+
+
 def show_map(clt_id):
     return display_msg(f"Client-id {clt_id}: Requested map\n {json.dumps(JSON_structure, indent=4)}")
 
 
 def dump_JSON(clt_id):
-    with open('file_structure.json', "w") as JSON_Outfile:
+    with open("C:/Users/SarmadSohail/IdeaProjects/mad-finager-with-threading/core/file_structure.json",
+              "w") as JSON_Outfile:
         json.dump(JSON_structure, JSON_Outfile, indent=4)
-        return display_msg(f"Client-id {clt_id}: Changes Saved!", 1)
+        return display_msg(f"Client-id {clt_id}: Changes Saved!")
 
 
 def close_program(clt_id):
-    print("Logs created in the logs.txt file check the root directory...")
+    print("Logs created in the logs.txt file check the logs folder...")
     if makeChanges > 0:
-        return dump_JSON(clt_id)
-    else:
-        return display_msg(f"Client-id {clt_id}: Program terminated!", 1)
+        dump_JSON(clt_id)
+    return "terminated"
 
 
-def display_msg(msg, code=0):
+def display_msg(msg):
     # code 0 = normal flow, code 1 = user interrupted the program
     with open("C:/Users/SarmadSohail/IdeaProjects/mad-finager-with-threading/logs/logs.txt", "a") as file_ptr:
         print(msg, file=file_ptr)
     return msg
 
 
-def main(user_choice, file_name, clt_id, writing_text="", do_close=""):
+def main(user_choice, file_name, clt_id, writing_text=""):
     global startProgram
     if startProgram == 0:
         clear_logs()
@@ -175,19 +170,12 @@ def main(user_choice, file_name, clt_id, writing_text="", do_close=""):
     elif user_choice == "2":
         return delete_file(clt_id, file_name)
     elif user_choice == "3":
-        return open_for_read(clt_id, file_name, do_close)
-    elif user_choice == "4" and activeUser == 1:
-        if file_name != activeAccess:
-            return open_for_write(clt_id, file_name, writing_text)
-        else:
-            return "Another Client is accessing the file!"
+        return open_for_read(clt_id, file_name)
     elif user_choice == "4":
-        open_for_write(clt_id, file_name, writing_text)
+        return open_for_write(clt_id, file_name, writing_text)
     elif user_choice == "5":
         return show_map(clt_id)
     elif user_choice == "6":
         return close_program(clt_id)
     else:
         return "Invalid input"
-
-    return "Logs created in the logs.txt file check the root directory..."
