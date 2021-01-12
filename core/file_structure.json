@@ -1,7 +1,7 @@
 {
     "meta_data": {
         "storage": 411,
-        "files": 7
+        "files": 8
     },
     "files": {
         "1": {
@@ -49,6 +49,11 @@
             "chunks": {
                 "0": "3"
             }
+        },
+        "11": {
+            "name": "t.txt",
+            "size": 0,
+            "chunks": {}
         }
     }
 }

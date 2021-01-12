@@ -35,15 +35,18 @@ def chunk_id_assigner(file_indexes):
 
 
 def clear_logs():
-    f = open("C:/Users/SarmadSohail/IdeaProjects/mad-finager-with-threading/logs/logs.txt", "w")
+    my_path = os.path.abspath(os.path.dirname(__file__))
+    path = os.path.join(my_path, "../logs/logs.txt")
+    f = open(path, "w")
     f.close()
 
 
 def load_JSON():
     global JSON_structure
-    if os.path.isfile("C:/Users/SarmadSohail/IdeaProjects/mad-finager-with-threading/core/file_structure.json"):
-        with open(
-                "C:/Users/SarmadSohail/IdeaProjects/mad-finager-with-threading/core/file_structure.json") as JSON_Infile:
+    my_path = os.path.abspath(os.path.dirname(__file__))
+    path = os.path.join(my_path, "file_structure.json")
+    if os.path.isfile(path):
+        with open(path) as JSON_Infile:
             JSON_structure = json.load(JSON_Infile)
     else:
         print("JSON File not found")
@@ -139,8 +142,9 @@ def show_map(clt_id):
 
 
 def dump_JSON(clt_id):
-    with open("C:/Users/SarmadSohail/IdeaProjects/mad-finager-with-threading/core/file_structure.json",
-              "w") as JSON_Outfile:
+    my_path = os.path.abspath(os.path.dirname(__file__))
+    path = os.path.join(my_path, "file_structure.json")
+    with open(path, "w") as JSON_Outfile:
         json.dump(JSON_structure, JSON_Outfile, indent=4)
         return display_msg(f"Client-id {clt_id}: Changes Saved!")
 
@@ -153,7 +157,9 @@ def close_program(clt_id):
 
 
 def display_msg(msg):
-    with open("C:/Users/SarmadSohail/IdeaProjects/mad-finager-with-threading/logs/logs.txt", "a") as file_ptr:
+    my_path = os.path.abspath(os.path.dirname(__file__))
+    path = os.path.join(my_path, "../logs/logs.txt")
+    with open(path, "a") as file_ptr:
         print(msg, file=file_ptr)
     return msg
 
