@@ -1,1 +1,57 @@
 # Mad-Finager-client-server
+The purpose of this project is to build the server for the file management component of distributed file management system. The goal of this project is to build the structure for file management to provide access to user(s) to create, delete, read, write the content onto the files in the system remotely.  
+It represents its output and store its files in JavaScript Object Notation (JSON) file in a very beautiful manner.
+
+
+# Motivation
+Mostly we have seen many computers having the implementation of File Management System. So, creating, writing data or reading content from the file, or open a file is done by using a simple project called "Mad-Finager with client-server ". We can do all the things remotely from different devices.
+
+# Build status
+Previous version of this project is implemented as "Mad-Finager with Threading"
+
+
+# Code style
+We have used Python language by using its thread library, with the usage of JSON file structure. 
+
+
+# Technology Used
+Python 3.7 and JSON
+
+# Built with
+
+PyCharm and Intelligaia IDE
+
+
+# How to use?
+1.	First, we have to execute server.py file to start the server which is running until the server program terminates.
+2.	After this, we run the client file, and give the IP Address of the server, for easiness let’s give 127.0.0.1. An id assigned to the client i.e “Client_id 0” and start performing operations like creating, deleting, read, writing onto the file with show map also.
+3.	If this process is going on and another user come and make connection with server, another thread attached into the server and handle its working. Another id is assigned to the client i.e “Client_id 1” and start performing operations like creating, deleting, read, writing onto the file with show map also.
+
+To understand the system, we have implemented different features. For this, we have to understand all of its feature.
+1.	It has two programs, a server and a client which is depicted in this screenshot.
+ 
+2.	The client allows the user to specify the IP address of the server
+ 
+
+3.	The server know that which client is connected with it and it display its username. 
+4.	In our system, we provide an interface to client to apply the operations developed in the previous.
+ 
+5.	The client gives errors when the server is not available.
+ 
+6.	The client displays the response of the actions performed.
+ 
+7.	The server respond to multiple requests at the same time. For example, in this screenshot, first we run the server and then starting three different operations, and server responds to all of the request. 
+ 
+8.	The server must bind to port 95.
+ 
+9.	The server and clients run on different machines.
+
+
+
+# Contribute
+You can give contribution to make it a Giant File Management System with other features of replace, manage, date modified and other general features.
+
+# License
+NUST © Sarmad Sohail
+NUST © Hamza Amjad
+NUST © Muhammad Umer Farooq
