@@ -29,7 +29,7 @@ PyCharm and Intelligaia IDE
 
 To understand the system, we have implemented different features. For this, we have to understand all of its feature.
 
-1.	It has two programs, a server and a client which is depicted in this screenshot.
+1.	It has two programs, a server and a client.
  
 2.	The client allows the user to specify the IP address of the server
  ![ipaddress](https://user-images.githubusercontent.com/57443179/104350689-3f0f0800-5526-11eb-83f1-f285841de77d.png)
