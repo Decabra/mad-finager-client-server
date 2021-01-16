@@ -47,7 +47,6 @@ To understand the system, we have implemented different features. For this, we h
 7.	The server respond to multiple requests at the same time. For example, in this screenshot, first we run the server and then starting three different operations, and server responds to all of the request. 
  ![multiplerequest](https://user-images.githubusercontent.com/57443179/104350677-3cacae00-5526-11eb-9af7-1e8a42b3a3bc.png)
 8.	The server must bind to port 95.
- ![socket](https://user-images.githubusercontent.com/57443179/104350735-4f26e780-5526-11eb-8e13-71741027b20e.png)
 9.	The server and clients run on different machines.
 
 
