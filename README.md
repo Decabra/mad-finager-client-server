@@ -52,4 +52,4 @@ To understand the system, we have implemented different features. For this, we h
 
 
 # Contribute
-You can give contribution to make it a Giant File Management System with other features of replace, manage, date modified and other general features.
+You can give contribution to make it a Giant File Management System with other features of replace, manage, date modified and other general feature.
